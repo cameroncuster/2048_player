@@ -103,13 +103,13 @@ bool Board::makeMove(ValidMove move)
    Board temp(*this);
    bool retVal = false;
 
-   if (!temp.anyValidMove()) 
+   if (!temp.anyValidMove())
       gameOver = true;
    else
    {
       retVal = checkMove(move);
- 
-      if (retVal) 
+
+      if (retVal)
          addValue();
    }
    return retVal;
@@ -124,7 +124,7 @@ bool Board::makeMove(ValidMove move)
  * are combined) then the function returns true.  Otherwise it returns
  * false.
  *
- *    Note: If the move results in a board change then the board will be 
+ *    Note: If the move results in a board change then the board will be
  *    changed on return.  This is the same as the makeMove function except
  *    a valid move does not result in a new tile being added.
  *
