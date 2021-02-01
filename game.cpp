@@ -11,7 +11,7 @@ Game::Game(Player *p) : player(p), gameOver(false), score(0)
 {
 #ifdef GRAPHICS
    // if the game is to be played with animations, load the images
-   loadImages(); 
+   loadImages();
 #endif
 }
 
@@ -39,7 +39,7 @@ bool Game::makeMove()
    // Update the current score
    score = board.getScore();
 
-   // If the player did not make a move the game is over 
+   // If the player did not make a move the game is over
    if (playerMove == NONE) gameIsOver();
 
    // If there are no valid moves remaining, the game is over
@@ -53,7 +53,7 @@ void Game::gameIsOver() { gameOver = true; }
 /***************************************************************************\\**
  * @brief isGameOver checks if any valid moves remain
  *
- * @return true iff there are no valid moves remaining 
+ * @return true iff there are no valid moves remaining
  ******************************************************************************/
 bool Game::isGameOver()
 {
