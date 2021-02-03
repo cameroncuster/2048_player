@@ -26,7 +26,7 @@ void initOpenGL(int msec)
 {
    char name[] = "2048 Solver";
    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-   
+
    glutInitWindowSize(510, 510);
 
    glutInitWindowPosition(50,50);      // initial window  position
