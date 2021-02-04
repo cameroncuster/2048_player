@@ -17,10 +17,9 @@ int Player::bestMove( Board b, int depth )
 
 	for( i = 1; i < 5; i++ )
 	{
-		if( b.checkMove( ( ValidMove ) i ) )
+		Board brd( b );
+		if( brd.checkMove( ( ValidMove ) i ) )
 		{
-			Board brd( b );
-			brd.makeMove( ( ValidMove ) i );
 			newScore = bestScore( brd, depth - 1, 0 );
 
 			if( newScore > score )
@@ -48,9 +47,9 @@ int Player::bestScore( Board b, int depth, bool player )
 	{
 		for( i = 1; i < 5; i++ )
 		{
-			if( b.checkMove( ( ValidMove ) i ) )
+			Board brd( b );
+			if( brd.checkMove( ( ValidMove ) i ) )
 			{
-				Board brd( b );
 				brd.makeMove( ( ValidMove ) i );
 				score = max( bestScore( brd, depth - 1, !player ), score );
 			}
@@ -63,10 +62,9 @@ int Player::bestScore( Board b, int depth, bool player )
 		{
 			for( j = 0; j < 4; j++ )
 			{
-				if( !b.board[i][j] )
+				Board brd( b );
+				if( !brd.board[i][j] )
 				{
-					Board brd( b );
-
 					brd.board[i][j] = 4;
 					newScore = bestScore( brd, depth - 1, player );
 					score += newScore / 10;

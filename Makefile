@@ -1,4 +1,4 @@
-COMMON_SRC = board.cpp game.cpp perfectPlayer.cpp
+COMMON_SRC = board.cpp game.cpp player.cpp
 
 CONSOLE_SRC = driver.cpp
 
