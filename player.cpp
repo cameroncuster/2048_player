@@ -87,7 +87,6 @@ ValidMove Player::makeMove(const Board b)
 {
 	Board brd( b );
 	cout << bestMove( brd, 6 ) << endl;
-	if( brd.checkMove( ( ValidMove ) bestMove( brd, 6 ) ) )
-		return ( ValidMove ) bestMove( brd, 6 );
+	return ( ValidMove ) bestMove( brd, 6 );
 	return NONE;
 }
