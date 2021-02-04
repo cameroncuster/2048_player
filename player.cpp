@@ -10,17 +10,18 @@ Player::Player() { }
 int Player::bestMove( Board b )
 {
 	int i;
-	int score = 0;
-	int newScore;
+	double score = 0.0;
+	double newScore;
 	int move = 0;
 
 	for( i = 1; i < 5; i++ )
 	{
+		// this line does not work
 		if( b.checkMove( ( ValidMove ) i ) )
 		{
-			newScore = bestScore( b, 6, 0 );
+			newScore = bestScore( b, 5, 0 );
 
-			if( newScore >= score )
+			if( newScore > score )
 			{
 				move = i;
 				score = newScore;
@@ -31,10 +32,10 @@ int Player::bestMove( Board b )
 	return move;
 }
 
-int Player::bestScore( Board b, int depth, bool player )
+double Player::bestScore( Board b, int depth, bool player )
 {
 	int i, j;
-	int score = 0;
+	double score = 0.0;
 	int open = 0;
 
 	if( b.isGameOver( ) )
@@ -58,10 +59,12 @@ int Player::bestScore( Board b, int depth, bool player )
 				if( !b.board[i][j] )
 				{
 					b.board[i][j] = 4;
-					score += bestScore( b, depth - 1, player ) / 10;
+					score += bestScore( b, depth - 1, player ) / 10.0;
+
+					b.board[i][j] = 0;
 
 					b.board[i][j] = 2;
-					score += ( bestScore( b, depth - 1, player ) * 9 ) / 10;
+					score += ( bestScore( b, depth - 1, player ) * 9.0 ) / 10.0;
 
 					b.board[i][j] = 0;
 
@@ -71,7 +74,7 @@ int Player::bestScore( Board b, int depth, bool player )
 		}
 		if( !open )
 			return 0;
-		score /= open;
+		score /= ( double ) open;
 	}
 
 	return score;
@@ -79,5 +82,6 @@ int Player::bestScore( Board b, int depth, bool player )
 
 ValidMove Player::makeMove(const Board b)
 {
+	cout << bestMove( b ) << endl;
 	return ( ValidMove ) bestMove( b );
 }
