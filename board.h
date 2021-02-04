@@ -30,6 +30,7 @@ public:
    int getScore() const;
    int maxVal() const;
    bool isGameOver();
+   int getTileCount() const;
    
    int board[4][4];
 

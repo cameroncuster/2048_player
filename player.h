@@ -10,7 +10,7 @@ public:
    Player ();
    ValidMove makeMove(const Board);
 private:
-	int bestMove( Board b, int depth );
+	int bestMove( Board b );
 	int bestScore( Board b, int depth, bool player );
 };
 

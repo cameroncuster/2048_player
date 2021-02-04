@@ -289,3 +289,14 @@ bool Board::anyValidMove()
    std::cout << "Ending game" << std::endl;
    return false;
 }
+
+int Board::getTileCount() const
+{
+	int i, j;
+	int count = 0;
+	for( i = 0; i < 4; i++ )
+		for( j = 0; j < 4; j++ )
+			if( board[i][j] )
+				count++;
+	return count;
+}

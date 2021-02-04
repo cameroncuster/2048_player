@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cmath>
-#include <climits>
 #include "board.h"
 #include "player.h"
 
@@ -8,21 +7,20 @@ using namespace std;
 
 Player::Player() { }
 
-int Player::bestMove( Board b, int depth )
+int Player::bestMove( Board b )
 {
 	int i;
-	int score = INT_MIN;
+	int score = 0;
 	int newScore;
 	int move = 0;
 
 	for( i = 1; i < 5; i++ )
 	{
-		Board brd( b );
-		if( brd.checkMove( ( ValidMove ) i ) )
+		if( b.checkMove( ( ValidMove ) i ) )
 		{
-			newScore = bestScore( brd, depth - 1, 0 );
+			newScore = bestScore( b, 6, 0 );
 
-			if( newScore > score )
+			if( newScore >= score )
 			{
 				move = i;
 				score = newScore;
@@ -36,49 +34,44 @@ int Player::bestMove( Board b, int depth )
 int Player::bestScore( Board b, int depth, bool player )
 {
 	int i, j;
-	int score = INT_MIN;
-	int newScore;
+	int score = 0;
 	int open = 0;
 
-	if( !depth || b.isGameOver( ) )
+	if( b.isGameOver( ) )
+		return 0;
+
+	if( !depth )
 		return b.getScore( );
 
 	if( player )
 	{
 		for( i = 1; i < 5; i++ )
-		{
-			Board brd( b );
-			if( brd.checkMove( ( ValidMove ) i ) )
-			{
-				brd.makeMove( ( ValidMove ) i );
-				score = max( bestScore( brd, depth - 1, !player ), score );
-			}
-		}
+			if( b.checkMove( ( ValidMove ) i ) )
+				score = max( bestScore( b, depth - 1, !player ), b.getScore( ) );
 	}
 	else
 	{
-		score = 0;
 		for( i = 0; i < 4; i++ )
 		{
 			for( j = 0; j < 4; j++ )
 			{
-				Board brd( b );
-				if( !brd.board[i][j] )
+				if( !b.board[i][j] )
 				{
-					brd.board[i][j] = 4;
-					newScore = bestScore( brd, depth - 1, player );
-					score += newScore / 10;
+					b.board[i][j] = 4;
+					score += bestScore( b, depth - 1, player ) / 10;
 
-					brd.board[i][j] = 2;
-					newScore = bestScore( brd, depth - 1, player );
-					score += ( newScore * 9 ) / 10;
+					b.board[i][j] = 2;
+					score += ( bestScore( b, depth - 1, player ) * 9 ) / 10;
+
+					b.board[i][j] = 0;
 
 					open++;
 				}
 			}
 		}
-		if( open > 0 )
-			score /= open;
+		if( !open )
+			return 0;
+		score /= open;
 	}
 
 	return score;
@@ -86,7 +79,5 @@ int Player::bestScore( Board b, int depth, bool player )
 
 ValidMove Player::makeMove(const Board b)
 {
-	Board brd( b );
-	return ( ValidMove ) bestMove( brd, 7 );
-	return NONE;
+	return ( ValidMove ) bestMove( b );
 }
