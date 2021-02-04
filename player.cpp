@@ -13,7 +13,7 @@ Player::Player( )
 ValidMove Player::bestMove( Board b )
 {
 	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
-	double score = 0.0;
+	double score = -1;
 	double newScore;
 	ValidMove move = NONE;
 
