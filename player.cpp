@@ -22,7 +22,7 @@ ValidMove Player::bestMove( Board b )
 		Board cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
-			newScore = bestScore( cpy, 5, 0 );
+			newScore = bestScore( cpy, 7, 0 );
 
 			if( newScore > score )
 			{
@@ -59,32 +59,12 @@ double Player::bestScore( Board b, int depth, bool player )
 	}
 	else
 	{
-		for( i = 0; i < 4; i++ )
+		for( i = 0; i < 6; i++ )
 		{
-			for( j = 0; j < 4; j++ )
-			{
-				if( !b.board[i][j] )
-				{
-					/*
-					b.board[i][j] = 4;
-					score += bestScore( b, depth - 1, player ) / 10.0;
-
-					b.board[i][j] = 2;
-					score += ( bestScore( b, depth - 1, player ) * 9.0 ) / 10.0;
-					*/
-
-					b.board[i][j] = 2;
-					score += bestScore( b, depth - 1, player );
-
-					b.board[i][j] = 0;
-
-					open++;
-				}
-			}
+			addValue( b );
+			score += bestScore( b, depth - 1, player );
 		}
-		if( !open )
-			return 0;
-		score /= ( double ) open;
+		score /= 6;
 	}
 
 	return score;
@@ -105,4 +85,24 @@ int Player::getTileCount( const Board b ) const
 			if( b.board[i][j] )
 				count++;
 	return count;
+}
+
+bool Player::addValue( Board b ) const
+{
+	vector<int> emptyCells;
+	for (int i = 0 ; i < 4 ; i++)
+		for (int j = 0 ; j < 4 ; j++)
+			if (!b.board[i][j])
+				emptyCells.push_back(i * 4 + j);
+
+	// If we found no empty cells, we can't place a new tile
+	if (emptyCells.size() == 0) return false;
+
+	// Pick a random empty cell
+	int randCell = emptyCells[rand() % emptyCells.size()];
+
+	// Set the random empty cell to either 2 or 4 at a 9:1 ratio
+	b.board[randCell / 4][randCell % 4] = (rand() % 100 > 90) ? 4 : 2;
+
+	return true;
 }
