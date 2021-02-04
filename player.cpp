@@ -87,7 +87,6 @@ int Player::bestScore( Board b, int depth, bool player )
 ValidMove Player::makeMove(const Board b)
 {
 	Board brd( b );
-	cout << bestMove( brd, 6 ) << endl;
-	return ( ValidMove ) bestMove( brd, 6 );
+	return ( ValidMove ) bestMove( brd, 7 );
 	return NONE;
 }
