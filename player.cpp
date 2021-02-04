@@ -77,7 +77,8 @@ int Player::bestScore( Board b, int depth, bool player )
 				}
 			}
 		}
-		score /= open;
+		if( open > 0 )
+			score /= open;
 	}
 
 	return score;
