@@ -42,7 +42,7 @@ double Player::bestScore( Board b, int depth, bool player )
 	double score = 0.0;
 
 	if( b.isGameOver( ) )
-		return 1;
+		return -1;
 
 	if( !depth )
 		return b.getScore( );
