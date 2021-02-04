@@ -47,7 +47,7 @@ int Player::bestScore( Board b, int depth, bool player )
 	{
 		for( i = 1; i < 5; i++ )
 			if( b.checkMove( ( ValidMove ) i ) )
-				score = max( bestScore( b, depth - 1, !player ), b.getScore( ) );
+				score = max( bestScore( b, depth - 1, !player ), score );
 	}
 	else
 	{
