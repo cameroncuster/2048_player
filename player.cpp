@@ -22,7 +22,7 @@ ValidMove Player::bestMove( Board b )
 		Board cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
-			newScore = bestScore( cpy, 6, 0 );
+			newScore = bestScore( cpy, 5, 0 );
 
 			if( newScore > score )
 			{
@@ -43,7 +43,7 @@ double Player::bestScore( Board b, int depth, bool player )
 	int open = 0;
 
 	if( b.isGameOver( ) )
-		return 0;
+		return 1;
 
 	if( !depth )
 		return b.getScore( );
@@ -65,11 +65,16 @@ double Player::bestScore( Board b, int depth, bool player )
 			{
 				if( !b.board[i][j] )
 				{
+					/*
 					b.board[i][j] = 4;
 					score += bestScore( b, depth - 1, player ) / 10.0;
 
 					b.board[i][j] = 2;
 					score += ( bestScore( b, depth - 1, player ) * 9.0 ) / 10.0;
+					*/
+
+					b.board[i][j] = 2;
+					score += bestScore( b, depth - 1, player );
 
 					b.board[i][j] = 0;
 
@@ -87,7 +92,6 @@ double Player::bestScore( Board b, int depth, bool player )
 
 ValidMove Player::makeMove(const Board b)
 {
-	cout << bestMove( b ) << endl;
 	return bestMove( b );
 }
 
