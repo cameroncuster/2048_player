@@ -19,9 +19,10 @@ ValidMove Player::bestMove( Board b )
 
 	for( ValidMove myMove : moves )
 	{
-		if( b.checkMove( myMove ) )
+		Board cpy( b );
+		if( cpy.checkMove( myMove ) )
 		{
-			newScore = bestScore( b, 5, 0 );
+			newScore = bestScore( cpy, 6, 0 );
 
 			if( newScore > score )
 			{
@@ -50,8 +51,11 @@ double Player::bestScore( Board b, int depth, bool player )
 	if( player )
 	{
 		for( ValidMove myMove : moves )
-			if( b.checkMove( myMove ) )
-				score = max( bestScore( b, depth - 1, !player ), score );
+		{
+			Board cpy( b );
+			if( cpy.checkMove( myMove ) )
+				score = max( bestScore( cpy, depth - 1, !player ), score );
+		}
 	}
 	else
 	{
@@ -63,8 +67,6 @@ double Player::bestScore( Board b, int depth, bool player )
 				{
 					b.board[i][j] = 4;
 					score += bestScore( b, depth - 1, player ) / 10.0;
-
-					b.board[i][j] = 0;
 
 					b.board[i][j] = 2;
 					score += ( bestScore( b, depth - 1, player ) * 9.0 ) / 10.0;
