@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cfloat>
 #include "board.h"
 #include "player.h"
 
@@ -43,7 +44,7 @@ double Player::bestScore( Board b, int depth, bool player )
 	double score = 0.0;
 
 	if( b.isGameOver( ) )
-		return -1;
+		return -DBL_MAX;
 
 	if( !depth )
 		return b.getScore( );
