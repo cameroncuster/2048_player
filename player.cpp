@@ -38,6 +38,7 @@ ValidMove Player::bestMove( Board b )
 double Player::bestScore( Board b, int depth, bool player )
 {
 	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
+	Board cpy( b );
 	int i;
 	double score = 0.0;
 
@@ -51,7 +52,6 @@ double Player::bestScore( Board b, int depth, bool player )
 	{
 		for( ValidMove myMove : moves )
 		{
-			Board cpy( b );
 			if( cpy.checkMove( myMove ) )
 				score = max( bestScore( cpy, depth - 1, !player ), score );
 		}
@@ -61,8 +61,8 @@ double Player::bestScore( Board b, int depth, bool player )
 	{
 		for( i = 0; i < 6; i++ )
 		{
-			addValue( b );
-			score += bestScore( b, depth - 1, player );
+			addValue( cpy );
+			score += bestScore( cpy, depth - 1, player );
 		}
 		return score / 6;
 	}
