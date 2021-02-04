@@ -4,7 +4,7 @@ Player::Player() { }
 
 // This is a very simple player which will make random moves as long as it is
 // able.
-// 
+//
 // There is no logic in the moves
 ValidMove Player::makeMove(const Board b)
 {

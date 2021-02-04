@@ -5,25 +5,27 @@
 
 using namespace std;
 
-Player::Player() { }
-
-int Player::bestMove( Board b )
+Player::Player( )
 {
-	int i;
+	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
+}
+
+ValidMove Player::bestMove( Board b )
+{
+	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
 	double score = 0.0;
 	double newScore;
-	int move = 0;
+	ValidMove move = NONE;
 
-	for( i = 1; i < 5; i++ )
+	for( ValidMove myMove : moves )
 	{
-		// this line does not work
-		if( b.checkMove( ( ValidMove ) i ) )
+		if( b.checkMove( myMove ) )
 		{
 			newScore = bestScore( b, 5, 0 );
 
 			if( newScore > score )
 			{
-				move = i;
+				move = myMove;
 				score = newScore;
 			}
 		}
@@ -34,6 +36,7 @@ int Player::bestMove( Board b )
 
 double Player::bestScore( Board b, int depth, bool player )
 {
+	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
 	int i, j;
 	double score = 0.0;
 	int open = 0;
@@ -46,8 +49,8 @@ double Player::bestScore( Board b, int depth, bool player )
 
 	if( player )
 	{
-		for( i = 1; i < 5; i++ )
-			if( b.checkMove( ( ValidMove ) i ) )
+		for( ValidMove myMove : moves )
+			if( b.checkMove( myMove ) )
 				score = max( bestScore( b, depth - 1, !player ), score );
 	}
 	else
@@ -83,5 +86,17 @@ double Player::bestScore( Board b, int depth, bool player )
 ValidMove Player::makeMove(const Board b)
 {
 	cout << bestMove( b ) << endl;
-	return ( ValidMove ) bestMove( b );
+	return bestMove( b );
+}
+
+
+int Player::getTileCount( const Board b ) const
+{
+	int i, j;
+	int count = 0;
+	for( i = 0; i < 4; i++ )
+		for( j = 0; j < 4; j++ )
+			if( b.board[i][j] )
+				count++;
+	return count;
 }

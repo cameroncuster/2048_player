@@ -10,8 +10,10 @@ public:
    Player ();
    ValidMove makeMove(const Board);
 private:
-	int bestMove( Board b );
+	ValidMove bestMove( Board b );
 	double bestScore( Board b, int depth, bool player );
+	int getTileCount( const Board b ) const;
+	ValidMove moves[];
 };
 
 #endif
