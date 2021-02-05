@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cmath>
-#include <cfloat>
 #include "board.h"
 #include "player.h"
 
 using namespace std;
+
+const double NINF = -10e9;
 
 Player::Player( )
 {
@@ -14,7 +15,7 @@ Player::Player( )
 ValidMove Player::bestMove( Board b )
 {
 	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
-	double score = -DBL_MAX;
+	double score = NINF - 1;
 	double newScore;
 	ValidMove move = NONE;
 
@@ -23,7 +24,7 @@ ValidMove Player::bestMove( Board b )
 		Board cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
-			newScore = bestScore( cpy, 7, 0 );
+			newScore = bestScore( cpy, 5, 0 );
 
 			if( newScore > score )
 			{
@@ -44,20 +45,14 @@ double Player::bestScore( Board b, int depth, bool player )
 	double score = 0;
 	int open = 0;
 
-	if( b.isGameOver( ) )
-		return -DBL_MAX;
-
-	if( !depth )
+	if( !depth || b.isGameOver( ) )
 		return b.getScore( );
 
 	if( player )
 	{
 		for( ValidMove myMove : moves )
-		{
 			if( cpy.checkMove( myMove ) )
 				score = max( bestScore( cpy, depth - 1, !player ), score );
-		}
-		return score;
 	}
 	else
 	{
@@ -68,30 +63,34 @@ double Player::bestScore( Board b, int depth, bool player )
 				if( !b.board[i][j] )
 				{
 					cpy.board[i][j] = 2;
-					score += bestScore( cpy, depth - 1, player );
+					score += 0.9 * bestScore( cpy, depth - 1, !player );
+
 					cpy.board[i][j] = 0;
+
+					cpy.board[i][j] = 4;
+					score += 0.1 * bestScore( cpy, depth - 1, !player );
 					open++;
 				}
 			}
 		}
 		if( !open )
-			return -DBL_MAX;
-		return score / open;
+			return NINF;
+		score /= open;
 		/*
-		   for( i = 0; i < 6; i++ )
-		   {
-		   addValue( cpy );
-		   score += bestScore( cpy, depth - 1, player );
-		   }
-		   return score / 6;
-		 */
+		for( i = 0; i < 6; i++ )
+		{
+			addValue( cpy );
+			score += bestScore( cpy, depth - 1, player );
+		}
+		score /= 6;
+		*/
 	}
-
 	return score;
 }
 
 ValidMove Player::makeMove(const Board b)
 {
+	cout << bestMove( b ) << endl;
 	return bestMove( b );
 }
 
