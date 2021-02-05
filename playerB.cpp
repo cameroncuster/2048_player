@@ -19,7 +19,7 @@ ValidMove Player::bestMove( Board b )
 
 	for( ValidMove myMove : moves )
 	{
-		
+
 		Board cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
