@@ -7,6 +7,9 @@ using namespace std;
 
 const double NINF = -10e9;
 
+const int deltaI[4] = { 1, 0, -1, 0 };
+const int deltaJ[4] = { 0, 1, 0, -1 };
+
 Player::Player( )
 {
 	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
@@ -49,7 +52,7 @@ double Player::bestScore( Board b, int depth, bool player )
 		return NINF;
 
 	if( !depth )
-		return b.getScore( );
+		return getScore( b );
 
 	if( player )
 	{
@@ -101,22 +104,30 @@ int Player::getTileCount( const Board b ) const
 	return count;
 }
 
-bool Player::addValue( Board b ) const
+double Player::getScore( Board b ) const
 {
-	vector<int> emptyCells;
-	for (int i = 0 ; i < 4 ; i++)
-		for (int j = 0 ; j < 4 ; j++)
-			if (!b.board[i][j])
-				emptyCells.push_back(i * 4 + j);
+	int i, j;
+	double score = 0;
+	int w[4][4] = {
+		{ 6, 5, 4, 3 },
+		{ 5, 4, 3, 2 },
+		{ 4, 3, 2, 1 },
+		{ 3, 2, 1, 0 }
+	};
+	for( i = 0; i < 4; i++ )
+		for( j = 0; j < 4; j++ )
+			score += w[i][j] * b.board[i][j];
+	return score;
+}
 
-	// If we found no empty cells, we can't place a new tile
-	if (emptyCells.size() == 0) return false;
-
-	// Pick a random empty cell
-	int randCell = emptyCells[rand() % emptyCells.size()];
-
-	// Set the random empty cell to either 2 or 4 at a 9:1 ratio
-	b.board[randCell / 4][randCell % 4] = (rand() % 100 > 90) ? 4 : 2;
-
-	return true;
+double Player::penalty( Board b ) const
+{
+	int i, j, k;
+	double penalty = 0;
+	for( i = 0; i < 4; i++ )
+		for( j = 0; j < 4; j++ )
+			for( k = 0; k < 4; k++ )
+				if( 0 < i + deltaI[i] < 4 && 0 < j + deltaJ[j] < 4 )
+					penalty += abs( b.board[i][j] - b.board[i + deltaI[i]][j + deltaJ[j]] );
+	return penalty;
 }

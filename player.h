@@ -13,7 +13,8 @@ class Player
 		ValidMove bestMove( Board b );
 		double bestScore( Board b, int depth, bool player );
 		int getTileCount( const Board b ) const;
-		bool addValue( Board b ) const;
+		double getScore( Board b ) const;
+		double penalty( Board b ) const;
 		ValidMove moves[];
 };
 
