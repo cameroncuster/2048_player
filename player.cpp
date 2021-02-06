@@ -52,7 +52,7 @@ double Player::bestScore( Board b, int depth, bool player )
 		return NINF;
 
 	if( !depth )
-		return getScore( b );
+		return b.getScore( ) + getScore( b );
 
 	if( player )
 	{
