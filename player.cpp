@@ -9,9 +9,13 @@ static constexpr int deltaI[4] = { 1, 0, -1, 0 };
 static constexpr int deltaJ[4] = { 0, 1, 0, -1 };
 static constexpr ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
 static constexpr double NINF = -10e9;
+/*
 static constexpr int w[16] = { 65536, 50625, 38416, 28561, 6561, 10000, 14641,
 	20736, 4096, 2401, 1296, 625, 4, 16, 81, 256 };
-//static const double w[16] = { 135759, .121925, .102812, .099937, .0997992, .0888405, .076711, .0724143, .060654, .0562579, .037116, .0161889, .0125498, .00992495, .00575871, .00335193 };
+	*/
+static const double w[16] = { .135759, .121925, .102812, .099937, .0997992,
+.0888405, .076711, .0724143, .060654, .0562579, .037116, .0161889, .0125498,
+	.00992495, .00575871, .00335193 };
 
 Player::Player( ) { }
 
@@ -48,7 +52,7 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 		return NINF;
 
 	if( !depth )
-		return b.getScore( );
+		return calculateScore( b );
 
 	if( agent )
 	{
