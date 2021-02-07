@@ -2,6 +2,7 @@
 #define __PLAYER_H
 #include <list>
 #include "board.h"
+#define double long
 
 class Player
 {
