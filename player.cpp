@@ -5,32 +5,27 @@
 
 using namespace std;
 
-const int arr[16] = { 2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096, 8192,
-	16384, 32768, 65536, 131072 };
+static constexpr int deltaI[4] = { 1, 0, -1, 0 };
+static constexpr int deltaJ[4] = { 0, 1, 0, -1 };
+static constexpr ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
+static constexpr double NINF = -10e9;
+static constexpr int w[16] = { 65536, 50625, 38416, 28561, 6561, 10000, 14641,
+	20736, 4096, 2401, 1296, 625, 4, 16, 81, 256 };
+//static const double w[16] = { 135759, .121925, .102812, .099937, .0997992, .0888405, .076711, .0724143, .060654, .0562579, .037116, .0161889, .0125498, .00992495, .00575871, .00335193 };
 
-const double NINF = -10e9;
+Player::Player( ) { }
 
-const int deltaI[4] = { 1, 0, -1, 0 };
-const int deltaJ[4] = { 0, 1, 0, -1 };
-
-Player::Player( )
+ValidMove Player::nextMove( const Board b ) const
 {
-	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
-}
-
-ValidMove Player::bestMove( Board b )
-{
-	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
-	double score = NINF - 1;
+	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
-
 	for( ValidMove myMove : moves )
 	{
 		Board cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
-			newScore = bestScore( cpy, 6, 0 );
+			newScore = expectimax( cpy, 6, 0 );
 
 			if( newScore > score )
 			{
@@ -39,13 +34,11 @@ ValidMove Player::bestMove( Board b )
 			}
 		}
 	}
-
 	return move;
 }
 
-double Player::bestScore( Board b, int depth, bool player )
+double Player::expectimax( Board b, int depth, bool agent ) const
 {
-	ValidMove moves[] = {LEFT, DOWN, RIGHT, UP};
 	Board cpy( b );
 	int i, j;
 	double score = 0;
@@ -55,13 +48,13 @@ double Player::bestScore( Board b, int depth, bool player )
 		return NINF;
 
 	if( !depth )
-		return ( 16 - getTileCount( b ) );
+		return b.getScore( );
 
-	if( player )
+	if( agent )
 	{
 		for( ValidMove myMove : moves )
 			if( cpy.checkMove( myMove ) )
-				score = max( bestScore( cpy, depth - 1, !player ), score );
+				score = max( expectimax( cpy, depth - 1, !agent ), score );
 	}
 	else
 	{
@@ -72,12 +65,12 @@ double Player::bestScore( Board b, int depth, bool player )
 				if( !b.board[i][j] )
 				{
 					cpy.board[i][j] = 2;
-					score += 0.9 * bestScore( cpy, depth - 1, !player );
+					score += 0.9 * expectimax( cpy, depth - 1, !agent );
 
 					cpy.board[i][j] = 0;
 
 					cpy.board[i][j] = 4;
-					score += 0.1 * bestScore( cpy, depth - 1, !player );
+					score += 0.1 * expectimax( cpy, depth - 1, !agent );
 
 					open++;
 				}
@@ -90,9 +83,9 @@ double Player::bestScore( Board b, int depth, bool player )
 	return score;
 }
 
-ValidMove Player::makeMove(const Board b)
+ValidMove Player::makeMove( const Board b ) const
 {
-	return bestMove( b );
+	return nextMove( b );
 }
 
 
@@ -107,31 +100,17 @@ int Player::getTileCount( const Board b ) const
 	return count;
 }
 
-double Player::getScore( Board b ) const
+double Player::calculateScore( const Board b ) const
 {
 	int i, j;
 	double score = 0;
-	double w[4][4] = {
-		{ .135759, .121925, .102812, .099937 },
-		{ .0997992, .0888405, .076711, .0724143 },
-		{ .060654, .0562579, .037116, .0161889 },
-		{ .0125498, .00992495, .00575871, .00335193 }
-	};
-	/*
-	double w[4][4] = {
-		{ 2.5, 1.5, 1.5, 2.5 },
-		{ 1.5, 1, 1, 1.5 },
-		{ 1.5, 1, 1, 1.5 },
-		{ 2.5, 1.5, 1.5, 2.5 }
-	};
-	*/
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
-			score += w[i][j] * b.board[i][j];
+			score += w[i * j] * b.board[i][j];
 	return score;
 }
 
-double Player::penalty( Board b ) const
+double Player::calculatePenalty( const Board b ) const
 {
 	int i, j, k;
 	double penalty = 0;
@@ -139,8 +118,10 @@ double Player::penalty( Board b ) const
 		for( j = 0; j < 4; j++ )
 			if( b.board[i][j] )
 				for( k = 0; k < 4; k++ )
-					if( i + deltaI[k] < 4 && j + deltaJ[k] < 4 && i + deltaI[k] >= 0 && j + deltaJ[k] >= 0 )
+					if( i + deltaI[k] < 4 && j + deltaJ[k] < 4 &&
+							i + deltaI[k] >= 0 && j + deltaJ[k] >= 0 )
 						if( b.board[i + deltaI[k]][j + deltaJ[k]] )
-							penalty += pow( abs( b.board[i][j] - b.board[i + deltaI[k]][j + deltaJ[k]] ), .5 );
+							penalty += abs( b.board[i][j] -
+									b.board[i + deltaI[k]][j + deltaJ[k]] );
 	return penalty;
 }

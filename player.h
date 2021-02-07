@@ -5,17 +5,17 @@
 
 class Player
 {
-		Board board;
+	Board board;
+
+	double calculateScore( const Board b ) const;
+	double calculatePenalty( const Board b ) const;
+	double expectimax( Board b, int depth, bool agent ) const;
+	int getTileCount( const Board b ) const;
+	ValidMove nextMove( const Board b ) const;
+
 	public:
-		Player ();
-		ValidMove makeMove(const Board);
-	private:
-		ValidMove bestMove( Board b );
-		double bestScore( Board b, int depth, bool player );
-		int getTileCount( const Board b ) const;
-		double getScore( Board b ) const;
-		double penalty( Board b ) const;
-		ValidMove moves[];
+	Player( );
+	ValidMove makeMove( const Board b ) const;
 };
 
 #endif
