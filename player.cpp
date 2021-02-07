@@ -5,6 +5,9 @@
 
 using namespace std;
 
+const int arr[16] = { 2, 4, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096, 8192,
+	16384, 32768, 65536, 131072 };
+
 const double NINF = -10e9;
 
 const int deltaI[4] = { 1, 0, -1, 0 };
@@ -108,11 +111,11 @@ double Player::getScore( Board b ) const
 {
 	int i, j;
 	double score = 0;
-	int w[4][4] = {
-		{ 6, 5, 4, 3 },
-		{ 5, 4, 3, 2 },
-		{ 4, 3, 2, 1 },
-		{ 3, 2, 1, 0 }
+	double w[4][4] = {
+		{ .135759, .121925, .102812, .099937 },
+		{ .0997992, .0888405, .076711, .0724143 },
+		{ .060654, .0562579, .037116, .0161889 },
+		{ .0125498, .00992495, .00575871, .00335193 }
 	};
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
@@ -126,8 +129,10 @@ double Player::penalty( Board b ) const
 	double penalty = 0;
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
-			for( k = 0; k < 4; k++ )
-				if( 0 < i + deltaI[i] < 4 && 0 < j + deltaJ[j] < 4 )
-					penalty += abs( b.board[i][j] - b.board[i + deltaI[i]][j + deltaJ[j]] );
+			if( b.board[i][j] )
+				for( k = 0; k < 4; k++ )
+					if( i + deltaI[k] < 4 && j + deltaJ[k] < 4 && i + deltaI[k] >= 0 && j + deltaJ[k] >= 0 )
+						if( b.board[i + deltaI[k]][j + deltaJ[k]] )
+							penalty += pow( abs( b.board[i][j] - b.board[i + deltaI[k]][j + deltaJ[k]] ), .5 );
 	return penalty;
 }
