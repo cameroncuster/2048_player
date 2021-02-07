@@ -1,0 +1,29 @@
+*  Choose a name for the player (put a Name file in your repo)
+*  Code compiles
+*  Code runs and plays the game
+*  Player averages better than the random player
+*  Player averages better than the greedy player
+-  All team members show repository activity
+--------------------------------------------------------------------------------
+Total % : 5/5  commit [c4c518adc291] used
+
+Notes:
+
+   * Making one simple change does not meet the requirement
+     of 'All team members show repository activity'.  Make sure both team
+     members are contributing
+    
+   * If the team is doing paired or team programming, that must be documented
+     in the commit logs.
+
+   * Projects do not, necessarily, require that all team members receive the
+     same grade.  I reserve the right to assign different grades for each
+     member of a team.
+
+   * Player is working so far, so good, keep an eye on the upcoming 
+     checkpoint requirements and the performance of the greedy player as it
+     will improve over time.
+
+   * Your player takes a lot of time per turn, you're currently under the 
+     wire (when run on an Opp Lab machine) but make sure you're keeping an
+     eye on that.
