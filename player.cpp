@@ -55,7 +55,7 @@ double Player::bestScore( Board b, int depth, bool player )
 		return NINF;
 
 	if( !depth )
-		return b.getScore( ) + getScore( b );
+		return ( 16 - getTileCount( b ) );
 
 	if( player )
 	{
@@ -117,6 +117,14 @@ double Player::getScore( Board b ) const
 		{ .060654, .0562579, .037116, .0161889 },
 		{ .0125498, .00992495, .00575871, .00335193 }
 	};
+	/*
+	double w[4][4] = {
+		{ 2.5, 1.5, 1.5, 2.5 },
+		{ 1.5, 1, 1, 1.5 },
+		{ 1.5, 1, 1, 1.5 },
+		{ 2.5, 1.5, 1.5, 2.5 }
+	};
+	*/
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
 			score += w[i][j] * b.board[i][j];
