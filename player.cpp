@@ -22,8 +22,7 @@ Player::Player( ) { }
 
 ValidMove Player::nextMove( const Board b ) const
 {
-	int open = 16 - getTileCount( b );
-	int depth = ( open > 7 ? 5 : ( open > 4 ? 6 : 7 ) );
+	int depth = 5;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
@@ -48,14 +47,14 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 {
 	Board cpy( b );
 	int i, j;
-	double score = 0;
+	double score = NINF;
 	int open = 0;
 
 	if( b.isGameOver( ) )
 		return NINF;
 
 	if( !depth )
-		return b.getScore( );
+		return 16 - getTileCount( b );
 
 	if( agent )
 	{
