@@ -12,6 +12,7 @@ class Player
 	double expectimax( Board b, int depth, bool agent ) const;
 	int getTileCount( const Board b ) const;
 	ValidMove nextMove( const Board b ) const;
+	double moveWeight( const Board b, ValidMove move) const;
 
 	public:
 	Player( );
