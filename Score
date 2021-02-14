@@ -27,3 +27,36 @@ Notes:
    * Your player takes a lot of time per turn, you're currently under the 
      wire (when run on an Opp Lab machine) but make sure you're keeping an
      eye on that.
+
+--------------------------------------------------------------------------------
+Checkpoint 2:
+
+  All requirements from Checkpoint 1 (no regressions).  Greedy is getting better
+  Writeup describing your algorithm / method of play (1-2 paragraphs)
+  Player averages 10% better than <b>your</b> checkpoint 1 player
+  All team members show significant repository activity
+
+Potential deductions for final submission
+  Unnecessary / incorrect files in the repository (binary, object, editor swap)
+  Memory leaks
+  Console spam
+--------------------------------------------------------------------------------
+Total % : 5/5  commit [61ddc11f817] used
+
+Notes:
+   
+   * Just (barely) staying ahead of Greedy player
+
+   * Still not equal activity in the repository, make sure you're indicating
+     if there is paired or team programming going on.
+
+   * Don't rest on your player, see if you can increase the average / maximum
+     or turn per score values this week!  Greedy gets a big upgrade this week.
+
+   * Also, make sure you go through and clean up the code to make the coding
+     standard consistent, the code modular and readable.
+
+   * Your player takes a lot of time per turn given the scores it's producing.
+     Maybe go back and start with a more simple model and really understand
+     what things impact scores.  A mini-max method is usually aimed at a
+     two player game, which this is not.
