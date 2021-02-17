@@ -24,7 +24,7 @@ Player::Player( ) { }
 
 ValidMove Player::nextMove( const Board b ) const
 {
-	int depth = 6;
+	int depth = 5;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
@@ -47,10 +47,9 @@ ValidMove Player::nextMove( const Board b ) const
 
 double Player::expectimax( Board b, int depth, bool agent ) const
 {
-	Board cpy( b );
 	int i, j;
 	double score = NINF;
-	int open = 0;
+	int open;
 
 	if( b.isGameOver( ) )
 		return NINF;
@@ -61,33 +60,33 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 	if( agent )
 	{
 		for( ValidMove myMove : moves )
+		{
+			Board cpy( b );
 			if( cpy.checkMove( myMove ) )
 				score = max( expectimax( cpy, depth - 1, !agent ), score );
+		}
 	}
 	else
 	{
-		if( getTileCount( b ) )
+		score = 0;
+		open = 16 - getTileCount( b );
+		for( i = 0; i < 4; i++ )
 		{
-			for( i = 0; i < 4; i++ )
+			for( j = 0; j < 4; j++ )
 			{
-				for( j = 0; j < 4; j++ )
+				if( !b.board[i][j] )
 				{
-					if( !b.board[i][j] )
-					{
-						cpy.board[i][j] = 2;
-						score += 0.9 * expectimax( cpy, depth - 1, !agent );
+					Board cpy( b );
 
-						cpy.board[i][j] = 0;
+					cpy.board[i][j] = 2;
+					score += 0.9 * expectimax( cpy, depth - 1, !agent );
 
-						cpy.board[i][j] = 4;
-						score += 0.1 * expectimax( cpy, depth - 1, !agent );
-
-						open++;
-					}
+					cpy.board[i][j] = 4;
+					score += 0.1 * expectimax( cpy, depth - 1, !agent );
 				}
 			}
-			score /= open;
 		}
+		score /= open;
 	}
 	return score;
 }
