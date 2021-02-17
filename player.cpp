@@ -55,7 +55,7 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 		return NINF;
 
 	if( !depth )
-		return b.getScore( );
+		return calculateScore( b );
 
 	if( agent )
 	{
