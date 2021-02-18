@@ -1,15 +1,28 @@
 #include <iostream>
 #include <cmath>
+#include <unordered_map>
 #include "board.h"
 #include "player.h"
 
 using namespace std;
 
+static unordered_map<int, int> log2Val = {
+	{ 2, 1 }, { 4, 2 }, { 8, 3 }, { 16, 4 }, { 32, 5 }, { 64, 6 }, { 128, 7 },
+	{ 256, 8 }, { 512, 9 }, { 1024, 10 }, { 2048, 11 }, { 4096, 12 }, { 8192, 13 },
+	{ 16384, 14 }, { 32768, 15 }, { 65536, 16 }
+};
+
 static constexpr const int deltaI[4] = { 1, 0, -1, 0 };
 static constexpr const int deltaJ[4] = { 0, 1, 0, -1 };
 static constexpr const ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
 static constexpr const double NINF = -10e9;
-static constexpr const double w[4][4] = { { 10, 8, 7, 6.5 }, { .5, .7, 1, 3 }, { -.5, -1.5, -1.8, -2 }, { -3.8, -3.7, -3.5, -3 } };
+static constexpr const double w[4][4] = {
+	{ 10, 8, 7, 6.5 },
+	{ .5, .7, 1, 3 },
+	{ -.5, -1.5, -1.8, -2 },
+	{ -3.8, -3.7, -3.5, -3 }
+};
+
 //static constexpr const int w[4][4] = { { 6, 5, 4, 3 }, { 5, 4, 3, 2 }, { 4, 3, 2, 1 }, { 3, 2, 1, 0 } };
 //static constexpr const int w[4][4] = { { 4096, 2048, 1024, 512 }, { 2048, 1024, 512, 256 }, { 1024, 512, 256, 128 }, { 512, 256, 128, 64 } };
 //static constexpr const int w[4][4] = { { 3, 2, 2, 3 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 3, 2, 2, 3 } };
@@ -55,7 +68,10 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 		return -100 * ( 6 - depth );
 
 	if( !depth )
-		return calculateScore( b );
+	{
+		//cout << calculateScore( b ) << ' ' << 10 * calculatePenalty( b ) << endl;
+		return calculateScore( b ) - 10 * calculatePenalty( b ) + 10 * ( 16 - getTileCount( b ) );
+	}
 
 	if( agent )
 	{
@@ -120,17 +136,21 @@ double Player::calculateScore( const Board b ) const
 
 double Player::calculatePenalty( const Board b ) const
 {
-	// use log2 to deterministically calculate the penalty
 	int i, j, k;
 	double penalty = 0;
+	Board cpy( b );
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
-			if( b.board[i][j] )
+			if( b.board )
+				cpy.board[i][j] = log2Val[cpy.board[i][j]];
+	for( i = 0; i < 4; i++ )
+		for( j = 0; j < 4; j++ )
+			if( cpy.board[i][j] )
 				for( k = 0; k < 4; k++ )
 					if( i + deltaI[k] < 4 && j + deltaJ[k] < 4 &&
 							i + deltaI[k] >= 0 && j + deltaJ[k] >= 0 )
-						if( b.board[i + deltaI[k]][j + deltaJ[k]] )
-							penalty += abs( b.board[i][j] -
-									b.board[i + deltaI[k]][j + deltaJ[k]] );
+						if( cpy.board[i + deltaI[k]][j + deltaJ[k]] )
+							penalty += abs( cpy.board[i][j] -
+									cpy.board[i + deltaI[k]][j + deltaJ[k]] );
 	return penalty;
 }
