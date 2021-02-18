@@ -5,17 +5,17 @@
 
 using namespace std;
 
-static constexpr int deltaI[4] = { 1, 0, -1, 0 };
-static constexpr int deltaJ[4] = { 0, 1, 0, -1 };
-static constexpr ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
-static constexpr double NINF = -10e9;
-static constexpr double w[4][4] = { { 10, 8, 7, 6.5 }, { .5, .7, 1, 3 }, { -.5, -1.5, -1.8, -2 }, { -3.8, -3.7, -3.5, -3 } };
-//static constexpr int w[4][4] = { { 6, 5, 4, 3 }, { 5, 4, 3, 2 }, { 4, 3, 2, 1 }, { 3, 2, 1, 0 } };
-//static constexpr int w[4][4] = { { 4096, 2048, 1024, 512 }, { 2048, 1024, 512, 256 }, { 1024, 512, 256, 128 }, { 512, 256, 128, 64 } };
-//static constexpr int w[4][4] = { { 3, 2, 2, 3 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 3, 2, 2, 3 } };
-//static constexpr int w[4][4] = { { 15, 14, 13, 12 }, { 8, 9, 10, 11 }, { 7, 6, 5, 4 }, { 0, 1, 2, 3 } };
+static constexpr const int deltaI[4] = { 1, 0, -1, 0 };
+static constexpr const int deltaJ[4] = { 0, 1, 0, -1 };
+static constexpr const ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
+static constexpr const double NINF = -10e9;
+static constexpr const double w[4][4] = { { 10, 8, 7, 6.5 }, { .5, .7, 1, 3 }, { -.5, -1.5, -1.8, -2 }, { -3.8, -3.7, -3.5, -3 } };
+//static constexpr const int w[4][4] = { { 6, 5, 4, 3 }, { 5, 4, 3, 2 }, { 4, 3, 2, 1 }, { 3, 2, 1, 0 } };
+//static constexpr const int w[4][4] = { { 4096, 2048, 1024, 512 }, { 2048, 1024, 512, 256 }, { 1024, 512, 256, 128 }, { 512, 256, 128, 64 } };
+//static constexpr const int w[4][4] = { { 3, 2, 2, 3 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 3, 2, 2, 3 } };
+//static constexpr const int w[4][4] = { { 15, 14, 13, 12 }, { 8, 9, 10, 11 }, { 7, 6, 5, 4 }, { 0, 1, 2, 3 } };
 /*
-static constexpr double w[4][4] = { { .135759, .121925, .102812, .099937 }, { .0997992,
+static constexpr const double w[4][4] = { { .135759, .121925, .102812, .099937 }, { .0997992,
 	.0888405, .076711, .0724143 }, { .060654, .0562579, .037116, .0161889 }, { .0125498,
 		.00992495, .00575871, .00335193 } };
 		*/
