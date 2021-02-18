@@ -52,7 +52,7 @@ double Player::expectimax( Board b, int depth, bool agent ) const
 	int open;
 
 	if( b.isGameOver( ) )
-		return NINF;
+		return -100 * ( 6 - depth );
 
 	if( !depth )
 		return calculateScore( b );
@@ -120,6 +120,7 @@ double Player::calculateScore( const Board b ) const
 
 double Player::calculatePenalty( const Board b ) const
 {
+	// use log2 to deterministically calculate the penalty
 	int i, j, k;
 	double penalty = 0;
 	for( i = 0; i < 4; i++ )
