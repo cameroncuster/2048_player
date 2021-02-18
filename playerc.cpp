@@ -35,15 +35,6 @@ static constexpr const double w[4][4] = {
 	{ 0, 0, 0, 0 }
 };
 
-/*
-   static constexpr const double w[4][4] = {
-   { 10, 8, 7, 6.5 },
-   { .5, .7, 1, 3 },
-   { -.5, -1.5, -1.8, -2 },
-   { -3.8, -3.7, -3.5, -3 }
-   };
- */
-
 //static constexpr const int w[4][4] = { { 6, 5, 4, 3 }, { 5, 4, 3, 2 }, { 4, 3, 2, 1 }, { 3, 2, 1, 0 } };
 //static constexpr const int w[4][4] = { { 4096, 2048, 1024, 512 }, { 2048, 1024, 512, 256 }, { 1024, 512, 256, 128 }, { 512, 256, 128, 64 } };
 //static constexpr const int w[4][4] = { { 3, 2, 2, 3 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 3, 2, 2, 3 } };
@@ -92,16 +83,6 @@ ValidMove Player::nextMove( const Board b ) const
 			}
 		}
 	}
-	/*
-	cout << endl << endl;
-	for( int i = 0; i < 4; i++ )
-	{
-		for( int j = 0; j < 4; j++ )
-			cout << b.board[i][j] << ' ';
-		cout << endl;
-	}
-	cout << calculateScore( b ) << ' ' << calculatePenalty( b ) << endl;
-	*/
 	return move;
 }
 
@@ -112,7 +93,7 @@ double Player::expectimax( Board &b, int depth, bool agent, double probability )
 	int open;
 
 	if( b.isGameOver( ) )
-		return -( calculateScore( b ) - calculatePenalty( b ) ) * probability; // factor for the probabiliy of each board state
+		return -( calculateScore( b ) - calculatePenalty( b ) ) * probability;
 
 	if( !depth || probability < .02 )
 		return calculateScore( b ) - calculatePenalty( b );
@@ -197,27 +178,3 @@ double Player::calculatePenalty( const Board &b ) const
 			wp[i];
 	return penalty;
 }
-
-/*
-   double Player::calculatePenalty( const Board b ) const
-   {
-// allocate for snaking
-int i, j, k;
-double penalty = 0;
-Board cpy( b );
-for( i = 0; i < 4; i++ )
-for( j = 0; j < 4; j++ )
-if( b.board )
-cpy.board[i][j] = log2Val[cpy.board[i][j]];
-for( i = 0; i < 4; i++ )
-for( j = 0; j < 4; j++ )
-if( cpy.board[i][j] )
-for( k = 0; k < 4; k++ )
-if( i + deltaI[k] < 4 && j + deltaJ[k] < 4 &&
-i + deltaI[k] >= 0 && j + deltaJ[k] >= 0 )
-if( cpy.board[i + deltaI[k]][j + deltaJ[k]] )
-penalty += abs( cpy.board[i][j] -
-cpy.board[i + deltaI[k]][j + deltaJ[k]] );
-return penalty;
-}
- */
