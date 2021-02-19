@@ -61,7 +61,6 @@ bool btoi::checkMove( ValidMove move )
 			{
 				c = getCol( i );
 				newc = table[1][c];
-				cout << 'c' << c << ' ' << "newc" << newc << endl;
 				if( c != newc )
 					valid = 1;
 				placeCol( cpy, newc, i );

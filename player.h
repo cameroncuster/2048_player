@@ -2,6 +2,7 @@
 #define __PLAYER_H
 #include <list>
 #include "board.h"
+#include "btoi.h"
 
 class Player
 {

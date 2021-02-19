@@ -1,11 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include "board.h"
 #include "player.h"
 
 using namespace std;
 
-static constexpr const ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
 static constexpr const double NINF = -10e9;
 static constexpr const double w[4][4] = {
 	{ 10, 8, 7, 6.5 },
