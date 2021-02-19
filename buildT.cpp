@@ -18,18 +18,6 @@ vector<int> inttoRow( const short &r )
 	return v;
 }
 
-vector<vector<int>> buildBoard( long long intb )
-{
-	int i;
-	vector<vector<int>> board( 4 );
-	for( i = 0; i < 4; i++ )
-	{
-		board[i] = inttoRow( intb );
-		intb >>= 16;
-	}
-	return board;
-}
-
 int main( )
 {
 	srand( time( NULL ) );
@@ -40,7 +28,6 @@ int main( )
 	btoi intboard( b );
 	vector<int> row;
 	vector<int> newRow( 4 );
-	vector<vector<int>> intboardtoVec( 4, vector<int>( 4 ) );
 
 	table.resize( 2, vector<short>( 1 << 16 ) );
 
@@ -91,18 +78,9 @@ int main( )
 			cout << endl << endl << endl;
 
 			assert( b.checkMove( move ) == newintboard.checkMove( move ) );
-			intboardtoVec = buildBoard( newintboard.getBoard( ) );
 
 			// DEBUG PRINT
 			cout << "AFTER M" << endl;
-			for( vector<int> v : intboardtoVec )
-			{
-				for( int i : v )
-					cout << i << ' ';
-				cout << endl;
-			}
-			cout << endl;
-
 			for( int x = 0; x < 4; x++ )
 			{
 				for( int y = 0; y < 4; y++ )
@@ -113,7 +91,7 @@ int main( )
 
 			for( i = 0; i < 4; i++ )
 				for( j = 0; j < 4; j++ )
-					assert( b.board[i][j] == intboardtoVec[i][j] );
+					assert( b.board[i][j] == newintboard.getVal( i, j ) );
 		}
 		cout << "TEST#: " << k << endl;
 	}
