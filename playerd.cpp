@@ -47,7 +47,12 @@ double Player::expectimax( Board &b, int depth, bool agent, double probability )
 	int open;
 
 	if( b.isGameOver( ) )
-		return -calculateScore( b ) * probability;
+	{
+		if( calculateScore( b ) < 0 )
+			return calculateScore( b ) * 1.0 / probability;
+		else
+			return calculateScore( b ) * probability;
+	}
 
 	if( !depth || probability < .02 )
 		return calculateScore( b );

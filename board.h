@@ -44,5 +44,4 @@ private:
    void draw();
    void spin();
 };
-
 #endif
