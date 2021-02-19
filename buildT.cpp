@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cassert>
 #include <ctime>
 #include <random>
 #include "btoi.h"
@@ -33,17 +32,17 @@ vector<vector<int>> buildBoard( long long intb )
 
 int main( )
 {
-	//srand( time( NULL ) );
+	srand( time( NULL ) );
+
 	int i, j, k;
 
-	// locally init transposition table
-	vector<vector<short>> table( 2, vector<short>( 1 << 16 ) );
-
 	Board b;
-	btoi intboard( b, table );
+	btoi intboard( b );
 	vector<int> row;
 	vector<int> newRow( 4 );
 	vector<vector<int>> intboardtoVec( 4, vector<int>( 4 ) );
+
+	table.resize( 2, vector<short>( 1 << 16 ) );
 
 	cout << "BUILDING TRANSPOSITION TABLE..." << endl;
 
@@ -77,7 +76,7 @@ int main( )
 					b.board[i][j] = pow( 2, rand( ) % 4 + 1 );
 			}
 		}
-		btoi newintboard( b, table );
+		btoi newintboard( b );
 		for( ValidMove move : moves )
 		{
 			cout << "MOVE: " << move << endl;

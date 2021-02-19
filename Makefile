@@ -1,4 +1,4 @@
-COMMON_SRC = board.cpp game.cpp player.cpp
+COMMON_SRC = board.cpp game.cpp player.cpp btoi.cpp
 
 CONSOLE_SRC = driver.cpp
 

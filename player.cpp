@@ -12,18 +12,55 @@ static constexpr const double w[4][4] = {
 	{ -3.8, -3.7, -3.5, -3 }
 };
 
-Player::Player( ) { }
-
-ValidMove Player::nextMove( const Board b ) const
+vector<int> inttoRow( const short &r )
 {
-	int open = 16 - getTileCount( b );
-	int depth = open > 7 ? 5 : open > 3 ? 6 : 7;
+	int i;
+	vector<int> v( 4 );
+	for( i = 0; i < 4; i++ )
+	{
+		v[i] = 1 << ( ( r >> ( 4 * i ) ) & 15 );
+		if( v[i] == 1 )
+			v[i] = 0;
+	}
+	return v;
+}
+
+Player::Player( )
+{
+	int i, j, k;
+
+	Board b;
+	btoi intboard( b );
+	vector<int> row;
+	vector<int> newRow( 4 );
+
+	table.resize( 2, vector<short>( 1 << 16 ) );
+
+	// BUILD TABLE
+	for( i = 0; i < ( 1 << 16 ); i++ )
+	{
+		for( k = 0; k < 2; k++ )
+		{
+			row = inttoRow( i );
+			for( j = 0; j < 4; j++ )
+				b.board[0][j] = row[j];
+			b.checkMove( k ? RIGHT : LEFT );
+			for( j = 0; j < 4; j++ )
+				newRow[j] = b.board[0][j];
+			table[k][i] = intboard.rowtoint( newRow );
+		}
+	}
+}
+
+ValidMove Player::nextMove( const btoi b ) const
+{
+	int depth = 5;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
 	for( ValidMove myMove : moves )
 	{
-		Board cpy( b );
+		btoi cpy( b );
 		if( cpy.checkMove( myMove ) )
 		{
 			newScore = expectimax( cpy, depth, 0, 1 );
@@ -38,7 +75,7 @@ ValidMove Player::nextMove( const Board b ) const
 	return move;
 }
 
-double Player::expectimax( Board &b, int depth, bool agent, double probability ) const
+double Player::expectimax( btoi &b, int depth, bool agent, double probability ) const
 {
 	int i, j;
 	double score = NINF;
@@ -54,7 +91,7 @@ double Player::expectimax( Board &b, int depth, bool agent, double probability )
 	{
 		for( ValidMove myMove : moves )
 		{
-			Board cpy( b );
+			btoi cpy( b );
 			if( cpy.checkMove( myMove ) )
 				score = max( expectimax( cpy, depth - 1, !agent, probability ), score );
 		}
@@ -62,24 +99,29 @@ double Player::expectimax( Board &b, int depth, bool agent, double probability )
 	else
 	{
 		score = 0;
-		open = 16 - getTileCount( b );
+		open = 0;
 		for( i = 0; i < 4; i++ )
 		{
 			for( j = 0; j < 4; j++ )
 			{
-				if( !b.board[i][j] )
+				if( !b.getVal( i, j ) )
 				{
-					b.board[i][j] = 2;
+					b.setVal( i, j, 2 );
 					score += 0.9 * expectimax( b, depth - 1, !agent, probability * .9 );
 
-					b.board[i][j] = 4;
+					b.setVal( i, j, 4 );
 					score += 0.1 * expectimax( b, depth - 1, !agent, probability * .1 );
 
 					// loop invariant
-					b.board[i][j] = 0;
+					b.setVal( i, j, 0 );
+
+					open++;
 				}
 			}
 		}
+		//assert( open ); // game over if !open
+		if( !open )
+			return -calculateScore( b ) * probability;
 		score /= open;
 	}
 	return score;
@@ -87,27 +129,16 @@ double Player::expectimax( Board &b, int depth, bool agent, double probability )
 
 ValidMove Player::makeMove( const Board b ) const
 {
-	return nextMove( b );
+	btoi intboard( b );
+	return nextMove( intboard );
 }
 
-
-int Player::getTileCount( const Board &b ) const
-{
-	int i, j;
-	int count = 0;
-	for( i = 0; i < 4; i++ )
-		for( j = 0; j < 4; j++ )
-			if( b.board[i][j] )
-				count++;
-	return count;
-}
-
-double Player::calculateScore( const Board &b ) const
+double Player::calculateScore( const btoi &b ) const
 {
 	int i, j;
 	double score = 0;
 	for( i = 0; i < 4; i++ )
 		for( j = 0; j < 4; j++ )
-			score += ( double ) w[i][j] * b.board[i][j];
+			score += w[i][j] * ( double ) b.getVal( i, j );
 	return score;
 }

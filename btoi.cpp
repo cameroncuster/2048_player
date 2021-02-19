@@ -4,6 +4,14 @@
 
 using namespace std;
 
+vector<vector<short>> table;
+
+static unordered_map<int, int> log2Val = {
+	{ 0, 0 }, { 2, 1 }, { 4, 2 }, { 8, 3 }, { 16, 4 }, { 32, 5 }, { 64, 6 }, { 128, 7 },
+	{ 256, 8 }, { 512, 9 }, { 1024, 10 }, { 2048, 11 }, { 4096, 12 }, { 8192, 13 },
+	{ 16384, 14 }, { 32768, 15 }, { 65536, 16 }
+}; // use the gcc compiler to handle this
+
 vector<int> arrtovec( const int *arr )
 {
 	int i;
@@ -13,16 +21,20 @@ vector<int> arrtovec( const int *arr )
 	return v;
 }
 
-btoi::btoi( const Board arr, vector<vector<short>> sTable )
+btoi::btoi( const Board arr )
 {
 	int i;
-	table = sTable;
 	b = 0;
 	for( i = 3; i >= 0; i-- )
 	{
 		b <<= 16;
 		b |= rowtoint( arrtovec( arr.board[i] ) );
 	}
+}
+
+btoi::btoi( const btoi &other )
+{
+	b = other.getBoard( );
 }
 
 bool btoi::isGameOver( )
@@ -34,6 +46,7 @@ bool btoi::isGameOver( )
 			b = cpy;
 			return 0;
 		}
+	assert( b == cpy );
 	return 1;
 }
 
@@ -131,4 +144,18 @@ void btoi::placeCol( long long &bc, short colVal, const int &col ) const
 	int i;
 	for( i = 0; i < 4; i++ )
 		bc |= ( ( ( long long ) colVal >> ( 4 * i ) ) & 15 ) << ( 16 * i + 4 * col );
+}
+
+void btoi::setVal( const int i, const int j, const int val )
+{
+	b &= ~( 15 << ( 16 * i + 4 * j ) );
+	b |= log2Val[ val ] << ( 16 * i + 4 * j );
+}
+
+int btoi::getVal( const int i, const int j ) const
+{
+	int val = 1 << ( ( b >> ( 16 * i + 4 * j ) ) & 15 );
+	if( val == 1 )
+		return 0;
+	return val;
 }
