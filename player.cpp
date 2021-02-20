@@ -74,7 +74,7 @@ Player::Player( )
 
 ValidMove Player::nextMove( const btoi b ) const
 {
-	int depth = 9;
+	int depth = 8;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
