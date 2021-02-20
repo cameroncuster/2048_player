@@ -38,6 +38,7 @@ btoi::btoi( const btoi &other )
 {
 	b = other.getBoard( );
 }
+
 bool btoi::isGameOver( )
 {
 	unsigned long long cpy = b;

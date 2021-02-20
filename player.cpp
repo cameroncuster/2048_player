@@ -33,8 +33,11 @@ Player::Player( )
 	btoi intboard( b );
 	vector<int> row;
 	vector<int> newRow( 4 );
+	double score;
 
 	table.resize( 2, vector<unsigned short>( 1 << 16 ) );
+
+	scoreTable.resize( 4, vector<double>( 1 << 16 ) );
 
 	// BUILD TABLE
 	for( i = 0; i < ( 1 << 16 ); i++ )
@@ -48,6 +51,19 @@ Player::Player( )
 			for( j = 0; j < 4; j++ )
 				newRow[j] = b.board[0][j];
 			table[k][i] = intboard.rowtoint( newRow );
+		}
+	}
+
+	// BUILD SCORE TABLE
+	for( i = 0; i < ( 1 << 16 ); i++ )
+	{
+		for( k = 0; k < 4; k++ )
+		{
+			score = 0;
+			row = inttoRow( i );
+			for( j = 0; j < 4; j++ )
+				score += ( double ) row[j] * w[k][j];
+			scoreTable[k][i] = score;
 		}
 	}
 }
@@ -134,6 +150,16 @@ ValidMove Player::makeMove( const Board b ) const
 
 double Player::calculateScore( const btoi &b ) const
 {
+	int i;
+	double score = 0;
+	for( i = 0; i < 4; i++ )
+		score += scoreTable[i][ b.getRow( i ) ];
+	return score;
+}
+
+/*
+double Player::calculateScore( const btoi &b ) const
+{
 	int i, j;
 	double score = 0;
 	for( i = 0; i < 4; i++ )
@@ -141,3 +167,4 @@ double Player::calculateScore( const btoi &b ) const
 			score += w[i][j] * ( double ) b.getVal( i, j );
 	return score;
 }
+*/
