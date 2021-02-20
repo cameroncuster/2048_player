@@ -12,7 +12,7 @@ static constexpr const double w[4][4] = {
 	{ -3.8, -3.7, -3.5, -3 }
 };
 
-vector<int> inttoRow( const short &r )
+vector<int> inttoRow( const unsigned short &r )
 {
 	int i;
 	vector<int> v( 4 );
@@ -34,7 +34,7 @@ Player::Player( )
 	vector<int> row;
 	vector<int> newRow( 4 );
 
-	table.resize( 2, vector<short>( 1 << 16 ) );
+	table.resize( 2, vector<unsigned short>( 1 << 16 ) );
 
 	// BUILD TABLE
 	for( i = 0; i < ( 1 << 16 ); i++ )
@@ -54,7 +54,7 @@ Player::Player( )
 
 ValidMove Player::nextMove( const btoi b ) const
 {
-	int depth = 5;
+	int depth = 6;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
@@ -119,7 +119,6 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 				}
 			}
 		}
-		//assert( open ); // game over if !open
 		if( !open )
 			return -calculateScore( b ) * probability;
 		score /= open;

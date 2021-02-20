@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<int> inttoRow( const short &r )
+vector<int> inttoRow( const unsigned short &r )
 {
 	int i;
 	vector<int> v( 4 );
@@ -29,7 +29,7 @@ int main( )
 	vector<int> row;
 	vector<int> newRow( 4 );
 
-	table.resize( 2, vector<short>( 1 << 16 ) );
+	table.resize( 2, vector<unsigned short>( 1 << 16 ) );
 
 	cout << "BUILDING TRANSPOSITION TABLE..." << endl;
 

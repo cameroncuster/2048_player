@@ -4,9 +4,9 @@
 
 using namespace std;
 
-vector<vector<short>> table;
+vector<vector<unsigned short>> table;
 
-static unordered_map<int, int> log2Val = {
+static unordered_map<unsigned long long , unsigned long long> log2Val = {
 	{ 0, 0 }, { 2, 1 }, { 4, 2 }, { 8, 3 }, { 16, 4 }, { 32, 5 }, { 64, 6 }, { 128, 7 },
 	{ 256, 8 }, { 512, 9 }, { 1024, 10 }, { 2048, 11 }, { 4096, 12 }, { 8192, 13 },
 	{ 16384, 14 }, { 32768, 15 }, { 65536, 16 }
@@ -34,28 +34,28 @@ btoi::btoi( const Board arr )
 
 btoi::btoi( const btoi &other )
 {
+	gameOver = other.gameOver;
 	b = other.getBoard( );
 }
 
 bool btoi::isGameOver( )
 {
-	long long cpy = b;
+	unsigned long long cpy = b;
 	for( ValidMove move : moves )
 		if( checkMove( move ) )
 		{
 			b = cpy;
 			return 0;
 		}
-	assert( b == cpy );
 	return 1;
 }
 
 bool btoi::checkMove( ValidMove move )
 {
 	int i;
-	short r, c;
-	long long newr, newc;
-	long long cpy = 0;
+	unsigned short r, c;
+	unsigned long long newr, newc;
+	unsigned long long cpy = 0;
 	bool valid = 0;
 	switch( move )
 	{
@@ -106,30 +106,30 @@ bool btoi::checkMove( ValidMove move )
 	return valid;
 }
 
-long long btoi::getBoard( ) const
+unsigned long long btoi::getBoard( ) const
 {
 	return b;
 }
 
-short btoi::getRow( const int &row ) const
+unsigned short btoi::getRow( const int &row ) const
 {
 	return b >> ( 16 * row );
 }
 
-short btoi::getCol( const int &col ) const
+unsigned short btoi::getCol( const int &col ) const
 {
 	int i;
-	short colVal = 0;
-	long long temp = b >> ( 4 * col );
+	unsigned short colVal = 0;
+	unsigned long long temp = b >> ( 4 * col );
 	for( i = 0; i < 4; i++ )
 		colVal |= ( ( temp >> ( 16 * i ) ) & 15 ) << ( 4 * i );
 	return colVal;
 }
 
-short btoi::rowtoint( const vector<int> &row ) const
+unsigned short btoi::rowtoint( const vector<int> &row ) const
 {
 	int i;
-	short r = 0;
+	unsigned short r = 0;
 	for( i = 3; i >= 0; i-- )
 	{
 		r <<= 4;
@@ -139,17 +139,17 @@ short btoi::rowtoint( const vector<int> &row ) const
 	return r;
 }
 
-void btoi::placeCol( long long &bc, short colVal, const int &col ) const
+void btoi::placeCol( unsigned long long &bc, unsigned short colVal, const int &col ) const
 {
 	int i;
 	for( i = 0; i < 4; i++ )
-		bc |= ( ( ( long long ) colVal >> ( 4 * i ) ) & 15 ) << ( 16 * i + 4 * col );
+		bc |= ( ( ( unsigned long long ) colVal >> ( 4 * i ) ) & 15 ) << ( 16 * i + 4 * col );
 }
 
 void btoi::setVal( const int i, const int j, const int val )
 {
-	b &= ~( 15 << ( 16 * i + 4 * j ) );
-	b |= log2Val[ val ] << ( 16 * i + 4 * j );
+	b &= ~( 15LL << ( 16 * i + 4 * j ) );
+	b |= ( ( unsigned long long ) log2Val[ val ] ) << ( 16 * i + 4 * j );
 }
 
 int btoi::getVal( const int i, const int j ) const
