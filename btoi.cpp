@@ -6,7 +6,9 @@ using namespace std;
 
 vector<vector<unsigned short>> table;
 
-static unordered_map<unsigned long long , unsigned long long> log2Val = {
+vector<vector<double>> scoreTable;
+
+static unordered_map<unsigned long long, unsigned long long> log2Val = {
 	{ 0, 0 }, { 2, 1 }, { 4, 2 }, { 8, 3 }, { 16, 4 }, { 32, 5 }, { 64, 6 }, { 128, 7 },
 	{ 256, 8 }, { 512, 9 }, { 1024, 10 }, { 2048, 11 }, { 4096, 12 }, { 8192, 13 },
 	{ 16384, 14 }, { 32768, 15 }, { 65536, 16 }
@@ -34,10 +36,8 @@ btoi::btoi( const Board arr )
 
 btoi::btoi( const btoi &other )
 {
-	gameOver = other.gameOver;
 	b = other.getBoard( );
 }
-
 bool btoi::isGameOver( )
 {
 	unsigned long long cpy = b;
@@ -69,6 +69,7 @@ bool btoi::checkMove( ValidMove move )
 				placeCol( cpy, newc, i );
 			}
 			break;
+
 		case DOWN:
 			for( i = 0; i < 4; i++ )
 			{
@@ -79,6 +80,7 @@ bool btoi::checkMove( ValidMove move )
 				placeCol( cpy, newc, i );
 			}
 			break;
+
 		case LEFT:
 			for( i = 0; i < 4; i++ )
 			{
@@ -89,6 +91,7 @@ bool btoi::checkMove( ValidMove move )
 				cpy |= newr << ( 16 * i );
 			}
 			break;
+
 		case RIGHT:
 			for( i = 0; i < 4; i++ )
 			{
@@ -99,6 +102,7 @@ bool btoi::checkMove( ValidMove move )
 				cpy |= newr << ( 16 * i );
 			}
 			break;
+
 		default:
 			break;
 	}
@@ -134,7 +138,7 @@ unsigned short btoi::rowtoint( const vector<int> &row ) const
 	{
 		r <<= 4;
 		if( row[i] )
-			r |= ( int ) log2( row[i] );
+			r |= ( int ) log2Val[ row[i] ];
 	}
 	return r;
 }

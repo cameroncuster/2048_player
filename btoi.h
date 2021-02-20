@@ -7,6 +7,8 @@
 
 extern vector<vector<unsigned short>> table;
 
+extern vector<vector<double>> scoreTable;
+
 constexpr const ValidMove moves[4] = { LEFT, DOWN, RIGHT, UP };
 
 using namespace std;
@@ -16,8 +18,6 @@ class btoi
 	unsigned long long b;
 
 	public:
-	bool gameOver;
-
 	btoi( const Board arr );
 	btoi( const btoi &other );
 
@@ -30,7 +30,6 @@ class btoi
 	unsigned short getRow( const int &row ) const;
 	unsigned short getCol( const int &col ) const;
 
-	// set or get i, j
 	void setVal( const int i, const int j, const int val );
 	int getVal( const int i, const int j ) const;
 
