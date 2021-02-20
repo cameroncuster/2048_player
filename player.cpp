@@ -12,6 +12,8 @@ static constexpr const double w[4][4] = {
 	{ -3.8, -3.7, -3.5, -3 }
 };
 
+static unordered_map<unsigned long long, double> memScore;
+
 vector<int> inttoRow( const unsigned short &r )
 {
 	int i;
@@ -38,6 +40,8 @@ Player::Player( )
 	table.resize( 2, vector<unsigned short>( 1 << 16 ) );
 
 	scoreTable.resize( 4, vector<double>( 1 << 16 ) );
+
+	memScore.reserve( 100000 );
 
 	// BUILD TABLE
 	for( i = 0; i < ( 1 << 16 ); i++ )
@@ -70,7 +74,7 @@ Player::Player( )
 
 ValidMove Player::nextMove( const btoi b ) const
 {
-	int depth = 7;
+	int depth = 9;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
@@ -97,10 +101,13 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 	double score = NINF;
 	int open;
 
+	if( memScore.count( b.getBoard( ) ) )
+		return memScore[ b.getBoard( ) ];
+
 	if( b.isGameOver( ) )
 		return -calculateScore( b ) * probability;
 
-	if( !depth || probability < .02 )
+	if( !depth ) // prune at probability < .02 ? two fours placed in sequence
 		return calculateScore( b );
 
 	if( agent )
@@ -139,11 +146,13 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 			return -calculateScore( b ) * probability;
 		score /= open;
 	}
+	memScore[ b.getBoard( ) ] = score;
 	return score;
 }
 
 ValidMove Player::makeMove( const Board b ) const
 {
+	memScore.clear( );
 	btoi intboard( b );
 	return nextMove( intboard );
 }
