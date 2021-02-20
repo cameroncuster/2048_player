@@ -110,7 +110,7 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 		return -calculateScore( b );
 	}
 
-	if( !depth || probability < .02 )
+	if( !depth || probability < .01 )
 	{
 		memScore[ b.getBoard( ) ] = calculateScore( b );
 		return calculateScore( b );
