@@ -105,10 +105,16 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 		return memScore[ b.getBoard( ) ];
 
 	if( b.isGameOver( ) )
-		return -calculateScore( b ) * probability;
+	{
+		memScore[ b.getBoard( ) ] = -calculateScore( b );
+		return -calculateScore( b );
+	}
 
-	if( !depth ) // prune at probability < .02 ? two fours placed in sequence
+	if( !depth || probability < .02 )
+	{
+		memScore[ b.getBoard( ) ] = calculateScore( b );
 		return calculateScore( b );
+	}
 
 	if( agent )
 	{
@@ -143,7 +149,10 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 			}
 		}
 		if( !open )
-			return -calculateScore( b ) * probability;
+		{
+			memScore[ b.getBoard( ) ] = -calculateScore( b );
+			return -calculateScore( b );
+		}
 		score /= open;
 	}
 	memScore[ b.getBoard( ) ] = score;
