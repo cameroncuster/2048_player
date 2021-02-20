@@ -70,7 +70,7 @@ Player::Player( )
 
 ValidMove Player::nextMove( const btoi b ) const
 {
-	int depth = 6;
+	int depth = 7;
 	double score = NINF;
 	double newScore;
 	ValidMove move = NONE;
@@ -156,15 +156,3 @@ double Player::calculateScore( const btoi &b ) const
 		score += scoreTable[i][ b.getRow( i ) ];
 	return score;
 }
-
-/*
-double Player::calculateScore( const btoi &b ) const
-{
-	int i, j;
-	double score = 0;
-	for( i = 0; i < 4; i++ )
-		for( j = 0; j < 4; j++ )
-			score += w[i][j] * ( double ) b.getVal( i, j );
-	return score;
-}
-*/
