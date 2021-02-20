@@ -4,10 +4,10 @@
 	Change Log
 	Attempted to optimize the algorithm by accounting for the similarity of
 	values across the board, and found that this must be done using the
-exponential powers of 2 of the values ( e.a. log2 the board values )
+	exponential powers of 2 of the values ( e.a. log2 the board values )
 	otherwise the operation is too slow.
 
-	Log2 values stored as a hash table to be accessed in average constant time
+	The exponent values stored as a hash table to be accessed in average constant time
 	as opposed to calculated. This was faster.
 
 	Attempted to alter the weights of the board for efficiency and scoring

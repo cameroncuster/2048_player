@@ -1,6 +1,5 @@
 #include "board.h"
 #include "btoi.h"
-#include <cmath>
 
 using namespace std;
 

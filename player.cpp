@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cmath>
 #include "player.h"
 
 using namespace std;
@@ -43,7 +41,7 @@ Player::Player( )
 
 	memScore.reserve( 100000 );
 
-	// BUILD TABLE
+	// BUILD TRANSPOSITION TABLE
 	for( i = 0; i < ( 1 << 16 ); i++ )
 	{
 		for( k = 0; k < 2; k++ )
@@ -110,7 +108,7 @@ double Player::expectimax( btoi &b, int depth, bool agent, double probability ) 
 		return -calculateScore( b );
 	}
 
-	if( !depth || probability < .01 )
+	if( !depth )
 	{
 		memScore[ b.getBoard( ) ] = calculateScore( b );
 		return calculateScore( b );
