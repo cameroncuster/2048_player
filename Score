@@ -60,3 +60,36 @@ Notes:
      Maybe go back and start with a more simple model and really understand
      what things impact scores.  A mini-max method is usually aimed at a
      two player game, which this is not.
+
+-------------------------------------------------------------------------------
+Final Review:
+
+   * Your final player made a big improvement after checkpoint 2, it appears
+     there was a radical re-write late in the game.
+
+   * Your writeup/log seems to indicate you did some thought about various
+     ways to increase scores.  The idea that a better objective function
+     could be the key to higher scores is correct.  One intuition concerning
+     recursively searching for further and further future boards would be
+     that the deeper the board, the less likely it would ever be encountered
+
+   * Not good internal documentation including function headers.  If you ever
+     return to the project you will not have the least idea as to what you
+     were doing / hoping to accomplish and how you believed that that would
+     be realized.
+
+   * All-in-all a decent job in the end but it appeared to be a rocky road.
+
+   * I hope this project helped you get better at the basic task of
+     turning an idea into functional code.  One of the major goals of this
+     course.
+
+   * The disproportionate effort apparent in the git commit logs will cause
+     the two team members to receive different grades.  Team projects are
+     just that, meant to be accomplished by working in a team.
+
+Player               :  +2%
+Checkpoint deduct    :   0%
+Documentation        : -10%  (internal)
+---------------------------
+Total Score          :  92%
