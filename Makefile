@@ -1,8 +1,8 @@
-COMMON_SRC = board.cpp game.cpp player.cpp btoi.cpp
+COMMON_SRC = src/board.cpp src/game.cpp src/player.cpp src/btoi.cpp
 
-CONSOLE_SRC = driver.cpp
+CONSOLE_SRC = src/driver.cpp
 
-GRAPHICS_SRC = main.cpp event.cpp util.cpp loadBMP.cpp graphics.cpp
+GRAPHICS_SRC = src/main.cpp src/event.cpp src/util.cpp src/loadBMP.cpp src/graphics.cpp
 
 CONSOLE_OBJS = $(CONSOLE_SRC:.cpp=.o) $(COMMON_SRC:.cpp=.o)
 GRAPHICS_OBJS = $(GRAPHICS_SRC:.cpp=.o) $(COMMON_SRC:.cpp=.o)
@@ -15,7 +15,7 @@ LINK = g++
 
 # Compiler flags
 INC =
-CFLAGS = -Wall -O3 -std=c++11
+CFLAGS = -Wall -O3 -std=c++11 -I.
 CXXFLAGS = $(CFLAGS)
 
 # Fill in special libraries needed here
@@ -34,11 +34,11 @@ console: $(CONSOLE_OBJS)
 	$(LINK) -o $@ $^ $(LIBS)
 
 clean:
-	rm -rf *.o *.d core graphics console
+	rm -rf src/*.o src/*.d core graphics console
 
-graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11
+graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11 -I.
 
-debug: CXXFLAGS = -DDEBUG -g -std=c++11
+debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I.
 debug: OBJS += $(CONSOLE_OBJS)
 debug: console
 

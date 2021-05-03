@@ -1,4 +1,4 @@
-#include "board.h"
+#include "inc/board.h"
 
 /***************************************************************************\\**
  * @brief Create a new board initialized with two random tiles

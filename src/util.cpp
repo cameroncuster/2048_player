@@ -1,4 +1,4 @@
-#include "util.h"
+#include "inc/util.h"
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -8,7 +8,7 @@ void keyboard(unsigned char key, int x, int y)
 void display()
 {
    glClear(GL_COLOR_BUFFER_BIT);
-   utilityCentral(new DisplayEvent); 
+   utilityCentral(new DisplayEvent);
    glutSwapBuffers();
 }
 
@@ -32,7 +32,7 @@ void cleanUpAndCloseDown(Game *game)
    std::cout << "Final Score: " << game->getScore() << std::endl;
    delete game;
    glutLeaveMainLoop();
-} 
+}
 
 void updateScore(Game *game)
 {
@@ -46,9 +46,9 @@ void utilityCentral(Event *event)
    static Player *player = new Player();
    static Game *game = new Game(player);
 
-   if (game->isGameOver()) 
+   if (game->isGameOver())
    {
-      std::cout << "GAME OVER!" << std::endl ; 
+      std::cout << "GAME OVER!" << std::endl ;
       cleanUpAndCloseDown(game);
    }
    else

@@ -1,4 +1,4 @@
-#include "loadBMP.h"
+#include "inc/loadBMP.h"
 
 unsigned int reorderBytes(byte *arr)
 {
@@ -24,7 +24,7 @@ bool loadBMP(const char *imagepath, int &width, int &height, unsigned char *&ima
    unsigned char header[54];
    unsigned int dataPos;
    unsigned int imageSize;
- 
+
    FILE *file = fopen(imagepath, "rb");
    if (!file)
    {
@@ -37,7 +37,7 @@ bool loadBMP(const char *imagepath, int &width, int &height, unsigned char *&ima
       std::cout << "Header invalid: Not a BMP file\n";
       return false;
    }
-   
+
    if (header[0] != 'B' || header[1] != 'M')
    {
       std::cout << "Incorrect image identifier.  Not a BMP file!\n";

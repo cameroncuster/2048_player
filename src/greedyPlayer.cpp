@@ -1,5 +1,5 @@
 #include <iostream>
-#include "board.h"
+#include "inc/board.h"
 
 using namespace std;
 
