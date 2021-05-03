@@ -1,7 +1,6 @@
 *.out
 *.o
 *.d
-*.bmp
 *.dat
 graphics
 console
