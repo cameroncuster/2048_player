@@ -15,7 +15,7 @@ LINK = g++
 
 # Compiler flags
 INC =
-CFLAGS = -Wall -O3 -std=c++11 -I.
+CFLAGS = -Wall -O3 -std=c++11 -I inc
 CXXFLAGS = $(CFLAGS)
 
 # Fill in special libraries needed here
@@ -36,9 +36,9 @@ console: $(CONSOLE_OBJS)
 clean:
 	rm -rf src/*.o src/*.d core graphics console
 
-graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11 -I.
+graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11 -I inc
 
-debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I.
+debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I inc
 debug: OBJS += $(CONSOLE_OBJS)
 debug: console
 

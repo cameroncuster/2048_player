@@ -1,6 +1,6 @@
 #include <iostream>
 #include <GL/glut.h>
-#include "inc/util.h"
+#include "util.h"
 
 using namespace std;
 

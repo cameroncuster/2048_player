@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
-#include "inc/btoi.h"
+#include "btoi.h"
 
 using namespace std;
 

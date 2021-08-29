@@ -1,5 +1,5 @@
-#include "inc/board.h"
-#include "inc/btoi.h"
+#include "board.h"
+#include "btoi.h"
 
 using namespace std;
 

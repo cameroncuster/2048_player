@@ -1,4 +1,4 @@
-#include "inc/event.h"
+#include "event.h"
 
 void cleanUpMemory(Game *game)
 {

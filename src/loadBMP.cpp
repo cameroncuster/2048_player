@@ -1,4 +1,4 @@
-#include "inc/loadBMP.h"
+#include "loadBMP.h"
 
 unsigned int reorderBytes(byte *arr)
 {

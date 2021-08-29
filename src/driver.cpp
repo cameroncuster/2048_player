@@ -1,8 +1,8 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
-#include "inc/game.h"
-#include "inc/player.h"
+#include "game.h"
+#include "player.h"
 
 using namespace std;
 using namespace std::chrono;
