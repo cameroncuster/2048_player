@@ -42,6 +42,9 @@ debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I inc
 debug: OBJS += $(CONSOLE_OBJS)
 debug: console
 
+tar: clean
+	tar zcvf 2048_player.tgz $(SOURCE) inc/*.h Makefile
+
 help:
 	@echo "You can build the game either with graphics (make graphics)"
 	@echo "or in console (make console) mode"
