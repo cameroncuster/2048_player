@@ -23,8 +23,11 @@ for a given board state has also been effective in reducing run time.
 ## Action Shots
 ![Gif of 2048 player with high speed execution](Images/exec.gif)
 
+## Source of Algorithm Ideas
+[https://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048](https://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048)
+
+## Performance and Results
+The player did not perform as well as the player described in the article above. This is likely a result of the heuristic function. With a better heurstic function for board states visited in the recursive call tree and for tile organization the player would likely perform substantially better.
+
 ## Improvements
-The heurisitic could be better defined for the player to allow to greater
-distances. I have considered that boards which are incredible deep in the
-recursive tree are highly unlikely to be reached, perhaps this could be
-utilized to optimize the algorithm, but thus far I have not done so.
+Overall the player's performance was consistantly improved over the course of the project, and the huerstic function was continually refined, but never accurately enough to exceed the player's heuristic function described in the article.
