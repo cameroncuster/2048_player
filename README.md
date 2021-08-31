@@ -27,7 +27,13 @@ for a given board state has also been effective in reducing run time.
 [https://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048](https://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048)
 
 ## Performance and Results
-The player did not perform as well as the player described in the article above. This is likely a result of the heuristic function. With a better heurstic function for board states visited in the recursive call tree and for tile organization the player would likely perform substantially better.
+The player did not perform as well as the player described in the article above.
+This is likely a result of the heuristic function. With a better heuristic
+function for board states visited in the recursive call tree and for tile
+organization the player would likely perform substantially better.
 
 ## Improvements
-Overall the player's performance was consistantly improved over the course of the project, and the huerstic function was continually refined, but never accurately enough to exceed the player's heuristic function described in the article.
+Overall the player's performance was consistently improved over the course of
+the project, and the heuristic function was continually refined, but the
+heuristic function was never refined accurately enough to exceed the player's
+heuristic function described in the article.
