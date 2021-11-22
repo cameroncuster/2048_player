@@ -1,8 +1,12 @@
-COMMON_SRC = src/board.cpp src/game.cpp src/player.cpp src/btoi.cpp
+SOURCE_DIR = src
 
-CONSOLE_SRC = src/driver.cpp
+INCLUDE_DIR = inc
 
-GRAPHICS_SRC = src/main.cpp src/event.cpp src/util.cpp src/loadBMP.cpp src/graphics.cpp
+COMMON_SRC = $(SOURCE_DIR)/board.cpp $(SOURCE_DIR)/game.cpp $(SOURCE_DIR)/player.cpp $(SOURCE_DIR)/btoi.cpp
+
+CONSOLE_SRC = $(SOURCE_DIR)/driver.cpp
+
+GRAPHICS_SRC = $(SOURCE_DIR)/main.cpp $(SOURCE_DIR)/event.cpp $(SOURCE_DIR)/util.cpp $(SOURCE_DIR)/loadBMP.cpp $(SOURCE_DIR)/graphics.cpp
 
 CONSOLE_OBJS = $(CONSOLE_SRC:.cpp=.o) $(COMMON_SRC:.cpp=.o)
 GRAPHICS_OBJS = $(GRAPHICS_SRC:.cpp=.o) $(COMMON_SRC:.cpp=.o)
@@ -14,8 +18,7 @@ GCC = g++
 LINK = g++
 
 # Compiler flags
-INC =
-CFLAGS = -Wall -O3 -std=c++11 -I inc
+CFLAGS = -Wall -O3 -std=c++11 -I $(INCLUDE_DIR)
 CXXFLAGS = $(CFLAGS)
 
 # Fill in special libraries needed here
@@ -34,16 +37,16 @@ console: $(CONSOLE_OBJS)
 	$(LINK) -o $@ $^ $(LIBS)
 
 clean:
-	rm -rf src/*.o src/*.d core graphics console
+	rm -rf $(SOURCE_DIR)/*.o $(SOURCE_DIR)/*.d core graphics console
 
-graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11 -I inc
+graphics: CXXFLAGS = -DGRAPHICS -O3 -Wall -std=c++11 -I $(INCLUDE_DIR)
 
-debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I inc
+debug: CXXFLAGS = -DDEBUG -g -std=c++11 -I $(INCLUDE_DIR)
 debug: OBJS += $(CONSOLE_OBJS)
 debug: console
 
 tar: clean
-	tar zcvf 2048_player.tgz $(SOURCE) inc/*.h Makefile
+	tar zcvf 2048_player.tgz $(SOURCE) $(INCLUDE_DIR)/*.h Makefile
 
 help:
 	@echo "You can build the game either with graphics (make graphics)"
